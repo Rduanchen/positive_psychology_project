@@ -140,7 +140,7 @@ const returnToDashboard = () => {
 
 <style scoped>
 .secondary--text {
-  color: #FFC107 !important;
+  color: rgb(var(--v-theme-secondary)) !important;
 }
 
 .opacity-80 {

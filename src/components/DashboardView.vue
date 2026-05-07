@@ -193,10 +193,10 @@ const recentGratitudeLogs = computed(() => {
 
 <style scoped>
 .v-card-title {
-  color: #009688;
+  color: rgb(var(--v-theme-primary));
 }
 .secondary--text {
-  color: #FFC107 !important;
+  color: rgb(var(--v-theme-secondary)) !important;
 }
 .gap-3 {
   gap: 12px;
@@ -209,8 +209,8 @@ const recentGratitudeLogs = computed(() => {
   border-color: rgba(0, 0, 0, 0.12);
 }
 .hover-card:hover {
-  background-color: rgba(0, 150, 136, 0.05);
-  border-color: #009688;
+  background-color: rgba(var(--v-theme-primary), 0.05);
+  border-color: rgb(var(--v-theme-primary));
 }
 .line-height-1-5 {
   line-height: 1.5;

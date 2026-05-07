@@ -115,10 +115,10 @@ const handleImport = () => {
 }
 
 .primary--text {
-  color: #009688 !important;
+  color: rgb(var(--v-theme-primary)) !important;
 }
 
 .secondary--text {
-  color: #FFC107 !important;
+  color: rgb(var(--v-theme-secondary)) !important;
 }
 </style>
