@@ -4,7 +4,7 @@ const STORAGE_KEY = 'positiveflow_data';
 
 // Default schema
 const defaultState = {
-  profile: { xp: 0, level: 1, streak: 0, lastActiveDate: '' },
+  profile: { xp: 0, level: 1, streak: 0, lastActiveDate: '', isDark: false },
   focusLogs: [], // { date: 'YYYY-MM-DD', minutes: 0 }
   gratitudeLogs: [] // { date: 'YYYY-MM-DD', items: [] }
 };
@@ -50,6 +50,10 @@ export const checkStreak = () => {
 // Calculate level based on XP (Level = floor(sqrt(XP/100)) + 1)
 const updateLevel = () => {
   store.profile.level = Math.floor(Math.sqrt(store.profile.xp / 100)) + 1;
+};
+
+export const toggleTheme = () => {
+  store.profile.isDark = !store.profile.isDark;
 };
 
 // Reward logic

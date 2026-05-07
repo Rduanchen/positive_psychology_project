@@ -22,6 +22,15 @@ const vuetify = createVuetify({
           background: '#F5F5F5',
           surface: '#FFFFFF',
         }
+      },
+      dark: {
+        dark: true,
+        colors: {
+          primary: '#4DB6AC', // 較柔和的 Teal 適合暗色
+          secondary: '#FFD54F', // 較柔和的 Amber
+          background: '#121C1A', // 深青黑色，帶來沉靜感
+          surface: '#1A2926', // 稍微亮一點的深青色卡片
+        }
       }
     }
   }

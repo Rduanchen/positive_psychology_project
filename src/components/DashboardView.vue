@@ -112,7 +112,7 @@
                 @click="openGratitudeDialog(log)"
               >
                 <v-card-item>
-                  <v-card-title class="text-subtitle-1 font-weight-bold text-black">{{ log.date }}</v-card-title>
+                  <v-card-title class="text-subtitle-1 font-weight-bold">{{ log.date }}</v-card-title>
                   <v-card-subtitle class="text-truncate mt-1 text-body-2">
                     1. {{ log.items[0] }}
                   </v-card-subtitle>

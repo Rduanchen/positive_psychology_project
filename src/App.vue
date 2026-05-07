@@ -6,6 +6,9 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <div class="d-flex align-center px-4">
+        <v-btn icon variant="text" @click="toggleTheme" class="mr-2 text-white">
+          <v-icon>{{ store.profile.isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
+        </v-btn>
         <v-chip color="secondary" text-color="black" variant="flat" class="mr-2 font-weight-bold">
           <v-icon left size="small" class="mr-1">mdi-star</v-icon>
           Lvl {{ store.profile.level }}
@@ -53,24 +56,33 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { store, checkStreak, initPWA } from './store';
+import { ref, onMounted, watch } from 'vue';
+import { useTheme } from 'vuetify';
+import { store, checkStreak, initPWA, toggleTheme } from './store';
 import DashboardView from './components/DashboardView.vue';
 import FocusView from './components/FocusView.vue';
 import GratitudeView from './components/GratitudeView.vue';
 import SettingsView from './components/SettingsView.vue';
 
 const currentTab = ref('dashboard');
+const theme = useTheme();
 
 onMounted(() => {
   checkStreak();
   initPWA();
+  // Initialize theme based on store
+  theme.global.name.value = store.profile.isDark ? 'dark' : 'light';
+});
+
+// Watch for theme changes in store and apply them
+watch(() => store.profile.isDark, (isDark) => {
+  theme.global.name.value = isDark ? 'dark' : 'light';
 });
 </script>
 
 <style>
 .bg-background {
-  background-color: #F5F5F5;
+  background-color: rgb(var(--v-theme-background));
 }
 .fade-enter-active,
 .fade-leave-active {
