@@ -275,11 +275,11 @@ onUnmounted(() => {
 }
 
 .primary--text {
-  color: #009688 !important;
+  color: rgb(var(--v-theme-primary)) !important;
 }
 
 .secondary--text {
-  color: #FFC107 !important;
+  color: rgb(var(--v-theme-secondary)) !important;
 }
 
 /* Breathing Animation */
@@ -297,9 +297,9 @@ onUnmounted(() => {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #009688;
+  background-color: rgb(var(--v-theme-primary));
   transition: transform 4s ease-in-out;
-  box-shadow: 0 0 20px rgba(0, 150, 136, 0.5);
+  box-shadow: 0 0 20px rgba(var(--v-theme-primary), 0.5);
 }
 
 .breathing-circle.inhale {
