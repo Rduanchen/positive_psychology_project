@@ -103,20 +103,22 @@
             感恩點滴
           </v-card-title>
           <v-card-text>
-            <v-list lines="two" v-if="recentGratitudeLogs.length">
-              <v-list-item
+            <div v-if="recentGratitudeLogs.length" class="d-flex flex-column gap-3">
+              <v-card
                 v-for="(log, i) in recentGratitudeLogs"
                 :key="i"
-                class="px-0"
+                variant="outlined"
+                class="rounded-lg cursor-pointer hover-card"
+                @click="openGratitudeDialog(log)"
               >
-                <v-list-item-title class="font-weight-bold">{{ log.date }}</v-list-item-title>
-                <v-list-item-subtitle class="mt-1">
-                  <ul class="pl-4">
-                    <li v-for="(item, j) in log.items" :key="j">{{ item }}</li>
-                  </ul>
-                </v-list-item-subtitle>
-              </v-list-item>
-            </v-list>
+                <v-card-item>
+                  <v-card-title class="text-subtitle-1 font-weight-bold text-black">{{ log.date }}</v-card-title>
+                  <v-card-subtitle class="text-truncate mt-1 text-body-2">
+                    1. {{ log.items[0] }}
+                  </v-card-subtitle>
+                </v-card-item>
+              </v-card>
+            </div>
             <div v-else class="text-center text-grey py-4">
               寫下今天值得感恩的事，累積正向能量！
             </div>
@@ -124,12 +126,47 @@
         </v-card>
       </v-col>
     </v-row>
+
+    <!-- Gratitude Modal -->
+    <v-dialog v-model="isDialogOpen" max-width="500">
+      <v-card class="rounded-xl pa-2">
+        <v-card-title class="text-h5 font-weight-bold secondary--text d-flex align-center mt-2">
+          <v-icon left color="secondary" class="mr-2">mdi-weather-sunny</v-icon>
+          {{ selectedLog?.date }} 的點滴
+        </v-card-title>
+        <v-card-text class="pt-4">
+          <v-list lines="one" bg-color="transparent" class="pa-0">
+            <v-list-item v-for="(item, index) in selectedLog?.items" :key="index" class="px-0 mb-3">
+              <template v-slot:prepend>
+                <v-avatar color="secondary" size="32" class="mr-4 font-weight-bold text-white elevation-1">
+                  {{ index + 1 }}
+                </v-avatar>
+              </template>
+              <v-list-item-title class="text-body-1 text-wrap line-height-1-5">{{ item }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-card-text>
+        <v-card-actions class="justify-center pb-4">
+          <v-btn color="primary" variant="flat" rounded="pill" class="px-8 font-weight-bold" @click="isDialogOpen = false">
+            關閉
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { store, pwaState, installPWA } from '../store';
+
+const isDialogOpen = ref(false);
+const selectedLog = ref(null);
+
+const openGratitudeDialog = (log) => {
+  selectedLog.value = log;
+  isDialogOpen.value = true;
+};
 
 const nextLevelXP = computed(() => {
   return Math.pow(store.profile.level, 2) * 100;
@@ -157,5 +194,25 @@ const recentGratitudeLogs = computed(() => {
 <style scoped>
 .v-card-title {
   color: #009688;
+}
+.secondary--text {
+  color: #FFC107 !important;
+}
+.gap-3 {
+  gap: 12px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.hover-card {
+  transition: all 0.2s ease;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.hover-card:hover {
+  background-color: rgba(0, 150, 136, 0.05);
+  border-color: #009688;
+}
+.line-height-1-5 {
+  line-height: 1.5;
 }
 </style>
