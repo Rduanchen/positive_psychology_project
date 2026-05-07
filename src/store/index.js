@@ -116,7 +116,8 @@ export const initPWA = () => {
   });
 
   const userAgent = window.navigator.userAgent.toLowerCase();
-  pwaState.isIOS = /iphone|ipad|ipod/.test(userAgent);
+  const isMacWithTouch = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  pwaState.isIOS = /iphone|ipad|ipod/.test(userAgent) || isMacWithTouch;
   pwaState.isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
 };
 
