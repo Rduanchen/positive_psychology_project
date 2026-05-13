@@ -7,11 +7,19 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+
+// MDI font icons — must be registered explicitly in Vuetify 4
+import { mdi } from 'vuetify/iconsets/mdi'
 import '@mdi/font/css/materialdesignicons.css'
 
 const vuetify = createVuetify({
   components,
   directives,
+  // Vuetify 4 requires explicitly declaring the icon set
+  icons: {
+    defaultSet: 'mdi',
+    sets: { mdi },
+  },
   theme: {
     defaultTheme: 'light',
     themes: {
@@ -37,3 +45,4 @@ const vuetify = createVuetify({
 })
 
 createApp(App).use(vuetify).mount('#app')
+
