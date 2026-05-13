@@ -20,8 +20,15 @@
       </div>
     </v-app-bar>
 
-    <v-main class="bg-background">
-      <v-container class="h-100 pa-4" fluid>
+    <v-main class="bg-background" style="min-height: 0;">
+      <v-container
+        class="pa-4"
+        fluid
+        style="
+          padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+          overflow-y: auto;
+        "
+      >
         <transition name="fade" mode="out-in">
           <DashboardView v-if="currentTab === 'dashboard'" />
           <FocusView v-else-if="currentTab === 'focus'" @completed="currentTab = 'dashboard'" />
@@ -31,7 +38,7 @@
       </v-container>
     </v-main>
 
-    <v-bottom-navigation v-model="currentTab" color="primary" grow active>
+    <v-bottom-navigation v-model="currentTab" color="primary" grow active style="padding-bottom: env(safe-area-inset-bottom, 0px);">
       <v-btn value="dashboard">
         <v-icon>mdi-view-dashboard</v-icon>
         <span>儀表板</span>
