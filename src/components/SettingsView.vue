@@ -1,5 +1,71 @@
 <template>
   <div class="settings-view mx-auto" style="max-width: 600px;">
+
+    <!-- PWA Install Card — hidden when already running as installed app -->
+    <v-card
+      v-if="!pwaState.isStandalone"
+      class="pa-6 rounded-xl mb-6 install-card"
+      elevation="3"
+    >
+      <v-card-title class="text-h5 font-weight-bold primary--text mb-2 d-flex align-center">
+        <v-icon left color="primary" class="mr-2">mdi-cellphone-arrow-down</v-icon>
+        安裝 App
+      </v-card-title>
+      <v-card-text>
+        <!-- Android / Chrome: show install button when prompt is available -->
+        <template v-if="pwaState.deferredPrompt">
+          <p class="text-body-2 text-grey-darken-1 mb-4">
+            將「debug your life」安裝到你的主畫面，享受更流暢的原生體驗。
+          </p>
+          <v-btn
+            color="primary"
+            variant="flat"
+            size="large"
+            rounded="pill"
+            block
+            prepend-icon="mdi-download"
+            @click="handleInstall"
+          >
+            安裝到主畫面
+          </v-btn>
+        </template>
+
+        <!-- iOS: manual instructions since Safari doesn't fire beforeinstallprompt -->
+        <template v-else-if="pwaState.isIOS">
+          <p class="text-body-2 text-grey-darken-1 mb-3">
+            在 Safari 中，點擊下方分享按鈕 <v-icon size="18" color="primary">mdi-export-variant</v-icon>，然後選擇
+            <strong>「加入主畫面」</strong> 即可安裝。
+          </p>
+          <v-alert type="info" variant="tonal" rounded="lg" density="compact">
+            <template #prepend>
+              <v-icon>mdi-apple</v-icon>
+            </template>
+            請確認你使用的是 <strong>Safari</strong> 瀏覽器，其他瀏覽器不支援 iOS 上的 PWA 安裝。
+          </v-alert>
+        </template>
+
+        <!-- Already installed or prompt not yet available -->
+        <template v-else>
+          <p class="text-body-2 text-grey-darken-1">
+            你的瀏覽器目前尚未提供安裝提示。請確認你正在使用 Chrome 或 Edge，並且尚未安裝此 App。
+          </p>
+        </template>
+      </v-card-text>
+    </v-card>
+
+    <!-- Already installed badge -->
+    <v-alert
+      v-else
+      type="success"
+      variant="tonal"
+      rounded="xl"
+      class="mb-6"
+      density="compact"
+      icon="mdi-check-circle"
+    >
+      此 App 已安裝在你的裝置上 🎉
+    </v-alert>
+
     <v-card class="pa-6 rounded-xl mb-6" elevation="2">
       <v-card-title class="text-h5 font-weight-bold primary--text mb-4 d-flex align-center">
         <v-icon left color="primary" class="mr-2">mdi-account</v-icon>
@@ -74,7 +140,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { store, exportData, importData } from '../store';
+import { store, exportData, importData, pwaState, installPWA } from '../store';
 
 const importFile = ref(null);
 
@@ -84,6 +150,10 @@ const totalFocusTime = computed(() => {
 
 const handleExport = () => {
   exportData();
+};
+
+const handleInstall = async () => {
+  await installPWA();
 };
 
 const handleFileSelected = (event) => {
