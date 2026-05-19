@@ -1,5 +1,5 @@
-# debug your life (原名 PositiveFlow)
-
+# debug your life
+> 114-2 正向心理專案
 這是一個整合「資訊工程」與「心理學」的網頁 Prototype，透過儀式感（Ritual）幫助使用者進入心流，並透過感恩日記（Gratitude）強化生活中的正向循環，達成「Debug Your Life」的核心目標。
 
 ## 專案特色
