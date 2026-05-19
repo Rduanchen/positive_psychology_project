@@ -3,9 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import vuetify from 'vite-plugin-vuetify'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const base = process.env.GITHUB_REPOSITORY
-  ? `/${process.env.GITHUB_REPOSITORY.split('/')[1]}/`
-  : '/'
+// 固定設定 base 路徑，避免因為本地打包時環境變數不存在導致 PWA manifest 路徑解析至根目錄
+const base = '/positive_psychology_project/'
 
 export default defineConfig({
   base,
@@ -47,8 +46,22 @@ export default defineConfig({
       },
       workbox: {
         // Cache all static assets for offline support (required for installability)
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,ttf,eot}'],
         runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'jsdelivr-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
           {
             urlPattern: ({ request }) => request.destination === 'document',
             handler: 'NetworkFirst',

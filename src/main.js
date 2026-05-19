@@ -10,7 +10,6 @@ import * as directives from 'vuetify/directives'
 
 // MDI font icons — must be registered explicitly in Vuetify 4
 import { mdi } from 'vuetify/iconsets/mdi'
-import '@mdi/font/css/materialdesignicons.css'
 
 const vuetify = createVuetify({
   components,
